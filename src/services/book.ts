@@ -49,7 +49,7 @@ const mapBooksToSearchEngines = (booksByTitle: Record<ShortName, string[]>) => {
 
 const searchEnginesMap = mapBooksToSearchEngines(booksByTitle)
 
-export const searchInAll = (v: string, books: ShortName[] = []) => {
+export const searchInAll = (v: string, books?: ShortName[]) => {
   return Object.keys(searchEnginesMap)
     .filter((key) =>
       books && Array.isArray(books) && books.length ? books.includes(key as ShortName) : true

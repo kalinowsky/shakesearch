@@ -9,7 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
 
     if (!isString(phrase) || phrase.length < 4)
       return res.status(400).json({ error: "Too short phrase" })
-    if (!isBooksArgument(books)) return res.status(400).json({ error: "Invalid books" })
+    if (books && !isBooksArgument(books)) return res.status(400).json({ error: "Invalid books" })
     if (!["all", "20"].includes(Array.isArray(limit) ? limit[0] : limit))
       return res.status(400).json({ error: "Invalid limit" })
 
