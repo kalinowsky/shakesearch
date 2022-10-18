@@ -2,8 +2,12 @@ import { readFileSync } from "fs"
 import Fuse from "fuse.js"
 import { contents, ShortName, shortNames } from "./contents"
 
+const PAGE_SIZE = 30
+
 export const loadData = () => {
-  const booksByTitle: Record<ShortName, string[]> = Object.fromEntries(shortNames.map((n) => [n, []])) as any
+  const booksByTitle: Record<ShortName, string[]> = Object.fromEntries(
+    shortNames.map((n) => [n, []])
+  ) as any
   let currentTitle: ShortName | null = null
 
   const data = readFileSync("completeworks.txt", "utf8")
@@ -47,7 +51,9 @@ const searchEnginesMap = mapBooksToSearchEngines(booksByTitle)
 
 export const searchInAll = (v: string, books: ShortName[] = []) => {
   return Object.keys(searchEnginesMap)
-    .filter((key) => (books && Array.isArray(books) && books.length ? books.includes(key as ShortName) : true))
+    .filter((key) =>
+      books && Array.isArray(books) && books.length ? books.includes(key as ShortName) : true
+    )
     .map((key) => {
       return searchEnginesMap[key].search(v).map((results) => ({ results, book: key }))
     })
@@ -59,3 +65,8 @@ export const getFullBookNameByShortName = (name: ShortName): string =>
   Object.keys(contents).find((k) => contents[k as keyof typeof contents].short === name) || ""
 
 export const getBookLine = (book: ShortName, line: number) => booksByTitle[book][line]
+export const getBookPage = (book: ShortName, page: number) =>
+  booksByTitle[book].slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+export const getBookSizeInLines = (book: ShortName) => booksByTitle[book].length
+export const getBookSizeInPages = (book: ShortName) =>
+  Math.ceil(getBookSizeInLines(book) / PAGE_SIZE)
