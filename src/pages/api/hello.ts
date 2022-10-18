@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next"
-import { book, booksByTitle, searchInAll } from "../../services/book"
+import { booksByTitle, searchInAll } from "../../services/book"
 
 type Data = {
   name: string

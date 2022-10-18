@@ -26,10 +26,10 @@ export const loadData = () => {
       index,
     }
   })
-  return [mapped, booksByTitle] as const
+  return booksByTitle
 }
 
-export const [book, booksByTitle] = loadData()
+export const booksByTitle = loadData()
 
 const mapBooksToSearchEngines = (booksByTitle: Record<ShortName, string[]>) => {
   const options = {
@@ -47,7 +47,7 @@ const searchEnginesMap = mapBooksToSearchEngines(booksByTitle)
 
 export const searchInAll = (v: string, books: ShortName[] = []) => {
   return Object.keys(searchEnginesMap)
-    .filter((key) => (books && Array.isArray(book) && books.length ? books.includes(key as ShortName) : true))
+    .filter((key) => (books && Array.isArray(books) && books.length ? books.includes(key as ShortName) : true))
     .map((key) => {
       return searchEnginesMap[key].search(v).map((results) => ({ results, book: key }))
     })

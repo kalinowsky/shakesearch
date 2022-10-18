@@ -28,6 +28,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
           getBookLine(res.book as ShortName, res.results.refIndex - 3) +
           getBookLine(res.book as ShortName, res.results.refIndex - 2) +
           getBookLine(res.book as ShortName, res.results.refIndex - 1),
+        page: Math.floor(res.results.refIndex / 30),
       },
     }))
 
