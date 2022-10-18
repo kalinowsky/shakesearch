@@ -21,24 +21,17 @@ export const loadData = () => {
 
     if (currentTitle) booksByTitle[currentTitle].push(line)
 
-    // if (booksByTitle[currentTitle]) {
-    //   booksByTitle[title].push(line)
-    // } else {
-    //   booksByTitle[title] = [line]
-    // }
     return {
       value: line,
       index,
     }
   })
-  // console.log(Object.keys(booksByTitle))
   return [mapped, booksByTitle] as const
 }
 
 export const [book, booksByTitle] = loadData()
 
 const mapBooksToSearchEngines = (booksByTitle: Record<ShortName, string[]>) => {
-  // const mapBooksToSearchEngines = (booksByTitle: Record<ShortName, string[]>) => {
   const options = {
     includeMatches: true,
     includeScore: true,
@@ -52,12 +45,17 @@ const mapBooksToSearchEngines = (booksByTitle: Record<ShortName, string[]>) => {
 
 const searchEnginesMap = mapBooksToSearchEngines(booksByTitle)
 
-export const searchInAll = (v: string, books: ShortName[] = ["HAM"]) => {
+export const searchInAll = (v: string, books: ShortName[] = []) => {
   return Object.keys(searchEnginesMap)
-    .filter((key) => (books ? books.includes(key as ShortName) : true))
+    .filter((key) => (books && Array.isArray(book) && books.length ? books.includes(key as ShortName) : true))
     .map((key) => {
       return searchEnginesMap[key].search(v).map((results) => ({ results, book: key }))
     })
     .reduce((acc, bookres) => [...acc, ...bookres], [])
     .sort((a, b) => (a.results.score || 0) - (b.results.score || 0))
 }
+
+export const getFullBookNameByShortName = (name: ShortName): string =>
+  Object.keys(contents).find((k) => contents[k as keyof typeof contents].short === name) || ""
+
+export const getBookLine = (book: ShortName, line: number) => booksByTitle[book][line]

@@ -7,5 +7,7 @@ type Data = {
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+  console.log(Object.values(booksByTitle).map((v) => v.length))
+  console.log({ results: searchInAll("hamlet") })
   res.status(200).json({ results: searchInAll("hamlet") } as any)
 }
