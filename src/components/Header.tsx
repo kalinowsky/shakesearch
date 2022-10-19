@@ -9,7 +9,6 @@ type HeaderProps = {
   onSubmit: FormEventHandler<HTMLFormElement>
 }
 export const Header: React.FC<HeaderProps> = (props) => {
-  console.log({ props: props.fullHeight })
   return (
     <HeaderWrapper {...props}>
       <Form onSubmit={props.onSubmit}>
@@ -33,13 +32,12 @@ export const Header: React.FC<HeaderProps> = (props) => {
 
 const HeaderWrapper = styled.header<{ fullHeight?: boolean }>`
   width: 100%;
-  height: ${(props) => (props.fullHeight ? "100vh" : "100px")};
+  height: ${(props) => (props.fullHeight ? "100px" : "100px")};
   background-color: ${(props) => props.theme.colors.background};
   display: flex;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #dadada;
-  transition: all 1s linear;
 `
 
 const Input = styled.input`

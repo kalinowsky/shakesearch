@@ -49,3 +49,6 @@ export const shortNames = Object.values(contents).map((val) => val.short)
 
 export type BookNames = keyof typeof contents
 export type ShortName = typeof contents[BookNames]["short"]
+
+export const getFullBookNameByShortName = (name: ShortName): string =>
+  Object.keys(contents).find((k) => contents[k as keyof typeof contents].short === name) || ""

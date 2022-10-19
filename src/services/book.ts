@@ -61,9 +61,6 @@ export const searchInAll = (v: string, books?: ShortName[]) => {
     .sort((a, b) => (a.results.score || 0) - (b.results.score || 0))
 }
 
-export const getFullBookNameByShortName = (name: ShortName): string =>
-  Object.keys(contents).find((k) => contents[k as keyof typeof contents].short === name) || ""
-
 export const getBookLine = (book: ShortName, line: number) => booksByTitle[book][line]
 export const getBookPage = (book: ShortName, page: number) =>
   booksByTitle[book].slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
