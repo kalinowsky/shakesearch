@@ -19,6 +19,12 @@ export const useSearch = (): {
 } => {
   const [results, setResults] = useState<Async<SearchResult[]>>({ type: "NotFetched" })
 
+  // useEffect(() => {
+  //   const { q, books } = state.query || {}
+  //   if (typeof q === "string") search(q, extractBooksFromQuery(books))
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [state.query.q, state.query.books])
+
   const search = async (name: string, books?: ShortBookName[]) => {
     if (!minSearchLength.safeParse(name).success)
       return setResults({ type: "FetchError", value: "Too short name" })

@@ -1,26 +1,27 @@
 import { FormEventHandler } from "react"
 import styled from "styled-components"
+import { HeaderStateProps } from "../hooks/useSearchState"
+import { getFullBookNameByShortName, ShortBookName } from "../services/contents"
 import { Button } from "./Button"
 
-type HeaderProps = {
-  fullHeight: boolean
-  value: string
-  setValue: (v: string) => void
-  onSubmit: FormEventHandler<HTMLFormElement>
-}
-export const Header: React.FC<HeaderProps> = (props) => {
+export const Header: React.FC<HeaderStateProps> = (props) => {
   return (
     <>
       <HeaderWrapper {...props}>
         <Form onSubmit={props.onSubmit}>
           <Input
             placeholder="Search phrase..."
-            value={props.value}
-            onChange={(e) => props.setValue(e.target.value)}
+            value={props.searchText}
+            onChange={(e) => props.setSearchText(e.target.value)}
           />
           <ButtonWrapper>
-            <Button btnType="secondary" type="button">
-              Select books
+            <Button
+              btnType="secondary"
+              type="button"
+              onClick={() => props.setBookSelectVisible(true)}
+              width="300px"
+            >
+              {getSelectBooksButtonName(props.selectedBooks)}
             </Button>
             <Button btnType="primary" type="submit">
               Search
@@ -31,6 +32,13 @@ export const Header: React.FC<HeaderProps> = (props) => {
     </>
   )
 }
+
+const getSelectBooksButtonName = (selectedBooks: ShortBookName[]): string =>
+  selectedBooks.length === 1
+    ? getFullBookNameByShortName(selectedBooks[0])
+    : selectedBooks.length > 1
+    ? `Selected ${selectedBooks.length} books`
+    : "Select books"
 
 const HeaderWrapper = styled.header<{ fullHeight?: boolean }>`
   width: 100%;

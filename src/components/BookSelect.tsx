@@ -4,12 +4,13 @@ import { contents, FullBookName, ShortBookName } from "../services/contents"
 import { Button } from "./Button"
 
 type BookSelectProps = {
+  selectedBooks: ShortBookName[]
   visible: boolean
   onClose: (v: ShortBookName[]) => void
 }
 
 export const BookSelect: React.FC<BookSelectProps> = (props) => {
-  const [selectedBooks, setSelectedBooks] = useState<ShortBookName[]>([])
+  const [selectedBooks, setSelectedBooks] = useState<ShortBookName[]>(props.selectedBooks)
   const toggleBook = (v: ShortBookName) => () => {
     if (selectedBooks.includes(v)) setSelectedBooks(selectedBooks.filter((book) => book !== v))
     else {
@@ -17,8 +18,11 @@ export const BookSelect: React.FC<BookSelectProps> = (props) => {
     }
   }
   return (
-    <Overlay style={{ visibility: props.visible ? "visible" : "hidden" }}>
-      <Content>
+    <Overlay
+      style={{ visibility: props.visible ? "visible" : "hidden" }}
+      onClick={() => props.onClose(props.selectedBooks)}
+    >
+      <Content onClick={(e) => e.stopPropagation()}>
         <Header>Select the books you wish to search in</Header>
         <Results>
           {Object.keys(contents).map((k) => {
@@ -67,6 +71,7 @@ const Content = styled.div`
   height: 600px;
   overflow-y: scroll;
   background: #e3dfe3;
+  z-index: 10;
   @media only screen and (max-width: 640px) {
     width: 100%;
     height: 100%;

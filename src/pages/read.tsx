@@ -1,51 +1,47 @@
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
-import { FormEvent, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../components/Button"
 import { Header } from "../components/Header"
 import { Text } from "../components/SearchResult"
+import { useSearchState } from "../hooks/useSearchState"
 
 const Read: NextPage = () => {
+  const state = useSearchState()
+
   const [results, setResults] = useState<string[]>([])
   const router = useRouter()
-  const [searchText, setSearchText] = useState("")
-  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     const { book, page } = router.query || {}
     if (book && page) {
-      setLoading(true)
       fetch(`/api/read?book=${book}&page=${page}`)
         .then((response) => response.json())
         .then((data) => {
           setResults(data)
-          setLoading(false)
         })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.book, router.query.page])
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    router.replace({ pathname: "/", query: { q: searchText } })
+  const goToPage = (move: "next" | "previous") => () => {
+    const { page } = state.query
+    const pageNumber = typeof page === "string" ? parseInt(page) : 0
+    router.push({
+      pathname: "/read",
+      query: { book: router.query.book, page: move === "next" ? pageNumber + 1 : pageNumber - 1 },
+    })
   }
-
-  const goToPage = (page: number) =>
-    router.push({ pathname: "/read", query: { book: router.query.book, page } })
 
   return (
     <div>
-      <Header
-        fullHeight={!(router.query.q || "").length || results.length === 0}
-        onSubmit={onSubmit}
-        value={searchText}
-        setValue={setSearchText}
-      />
+      <Header {...state} />
       <Text rawText={results.join("")} />
       <div>
-        <Button btnType="secondary" onClick={() => goToPage(parseInt(router.query.page) - 1)}>
+        <Button btnType="secondary" onClick={goToPage("previous")}>
           Previous
         </Button>
-        <Button btnType="secondary" onClick={() => goToPage(parseInt(router.query.page) + 1)}>
+        <Button btnType="secondary" onClick={goToPage("next")}>
           Next
         </Button>
       </div>
