@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { Either } from "../types"
 import { ShortBookName, decalredShortNames, shortNames } from "./contents"
 
 export const isBookShortName = (v: string | string[] | undefined): v is ShortBookName =>
@@ -13,6 +14,22 @@ export const extractBooksFromQuery = (bookQuery: string | string[] | undefined) 
   if (typeof bookQuery === "string") return bookQuery.split(",").filter(isBookShortName)
   return bookQuery.filter(isBookShortName)
 }
+
+export const getValidatedPageNumber = (page: string | string[] | undefined): Either<number> => {
+  const message = "Invalid page"
+  if (page === undefined || Array.isArray(page)) return { type: "Error", message }
+  const pageNumber = parseInt(page)
+  if (
+    typeof pageNumber !== "number" ||
+    isNaN(pageNumber) ||
+    pageNumber < 0 ||
+    !Number.isInteger(pageNumber)
+  )
+    return { type: "Error", message }
+  return { type: "Ok", value: pageNumber }
+}
+
+export const readResultSchema = z.array(z.string())
 
 export const minSearchLength = z.string().min(4)
 

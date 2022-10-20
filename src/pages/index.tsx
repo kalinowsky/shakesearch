@@ -1,28 +1,13 @@
-import type { NextPage } from "next"
-import { useEffect } from "react"
 import styled from "styled-components"
-import { BookSelect } from "../components/BookSelect"
-import { Header } from "../components/Header"
 import { SearchResult } from "../components/SearchResult"
-import { useSearchState } from "../hooks/useSearchState"
-import { useSearch } from "../hooks/useSearch"
-import { extractBooksFromQuery } from "../services/validation"
+import { PageProps } from "../types"
 
-const Search: NextPage = (props) => {
-  const state = useSearchState()
-  const { search, results } = useSearch()
-
-  useEffect(() => {
-    const { q, books } = state.query || {}
-    if (typeof q === "string") search(q, extractBooksFromQuery(books))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.query.q, state.query.books])
-
+const SearchResults: PageProps = (props) => {
+  const { searchResults: results, state } = props
   return (
     <div>
-      <Header {...state} />
-      {results.type === "Fetching" && "loading"}
-      {results.type === "FetchError" && results.value}
+      {results.type === "Fetching" && <div>loading</div>}
+      {results.type === "Error" && results.message}
       {results.type === "Fetched" && (
         <ResultsWrapper>
           {results.value.map((v) => (
@@ -35,21 +20,11 @@ const Search: NextPage = (props) => {
           ))}
         </ResultsWrapper>
       )}
-      {state.bookSelectVisible && (
-        <BookSelect
-          {...state}
-          visible={state.bookSelectVisible}
-          onClose={(books) => {
-            state.setSelectedBooks(books)
-            state.setBookSelectVisible(false)
-          }}
-        />
-      )}
     </div>
   )
 }
 
-export default Search
+export default SearchResults
 
 const ResultsWrapper = styled.div`
   display: flex;

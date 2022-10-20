@@ -9,7 +9,7 @@ type BookSelectProps = {
   onClose: (v: ShortBookName[]) => void
 }
 
-export const BookSelect: React.FC<BookSelectProps> = (props) => {
+export const BookSelectModal: React.FC<BookSelectProps> = (props) => {
   const [selectedBooks, setSelectedBooks] = useState<ShortBookName[]>(props.selectedBooks)
   const toggleBook = (v: ShortBookName) => () => {
     if (selectedBooks.includes(v)) setSelectedBooks(selectedBooks.filter((book) => book !== v))

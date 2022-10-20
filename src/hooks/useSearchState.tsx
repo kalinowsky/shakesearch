@@ -12,7 +12,7 @@ export const useSearchState = () => {
 
   useEffect(() => {
     const { q, books } = query || {}
-    if (minSearchLength.safeParse(q)) setSearchText(q as string)
+    if (minSearchLength.safeParse(q).success) setSearchText(q as string)
     setSelectedBooks(extractBooksFromQuery(books))
   }, [query.q, query.books])
 

@@ -1,4 +1,3 @@
-import { FormEventHandler } from "react"
 import styled from "styled-components"
 import { HeaderStateProps } from "../hooks/useSearchState"
 import { getFullBookNameByShortName, ShortBookName } from "../services/contents"

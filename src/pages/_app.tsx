@@ -2,6 +2,10 @@ import "../../styles/globals.css"
 import type { AppProps } from "next/app"
 import { ThemeProvider } from "styled-components"
 import { SearchWrapper } from "../components/SearchWrapper"
+import { useSearch } from "../hooks/useSearch"
+import { Header } from "../components/Header"
+import { useSearchState } from "../hooks/useSearchState"
+import { BookSelectModal } from "../components/BookSelectModal"
 
 export const theme = {
   name: "light-theme",
@@ -13,12 +17,27 @@ export const theme = {
 }
 
 function App({ Component, pageProps }: AppProps) {
+  const { results } = useSearch()
+  const state = useSearchState()
   return (
-    <ThemeProvider theme={theme}>
-      <SearchWrapper>
-        <Component {...pageProps} />
-      </SearchWrapper>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <SearchWrapper>
+          <Header {...state} />
+          <Component {...pageProps} searchResults={results} state={state} />
+        </SearchWrapper>
+        {state.bookSelectVisible && (
+          <BookSelectModal
+            {...state}
+            visible={state.bookSelectVisible}
+            onClose={(books) => {
+              state.setSelectedBooks(books)
+              state.setBookSelectVisible(false)
+            }}
+          />
+        )}
+      </ThemeProvider>
+    </>
   )
 }
 
