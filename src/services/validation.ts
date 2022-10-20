@@ -1,8 +1,37 @@
-import { ShortName, shortNames } from "./contents"
+import { z } from "zod"
+import { ShortBookName, decalredShortNames, shortNames } from "./contents"
 
-export const isBookShortName = (v: string | string[] | undefined): v is ShortName =>
-  typeof v === "string" && shortNames.includes(v as ShortName)
+export const isBookShortName = (v: string | string[] | undefined): v is ShortBookName =>
+  typeof v === "string" && shortNames.includes(v as ShortBookName)
 
 export const isString = (v: string | string[] | undefined): v is string => typeof v === "string"
-export const isBooksArgument = (v: string | string[] | undefined): v is ShortName[] =>
-  !!(v && Array.isArray(v) && v.every((book) => shortNames.includes(book as ShortName)))
+export const isBooksArgument = (v: string | string[] | undefined): v is ShortBookName[] =>
+  !!(v && Array.isArray(v) && v.every((book) => shortNames.includes(book as ShortBookName)))
+
+export const extractBooksFromQuery = (bookQuery: string | string[] | undefined) => {
+  if (bookQuery === undefined || bookQuery === "") return []
+  if (typeof bookQuery === "string") return bookQuery.split(",").filter(isBookShortName)
+  return bookQuery.filter(isBookShortName)
+}
+
+export const minSearchLength = z.string().min(4)
+
+export const shortNamesSchema = z.enum(decalredShortNames)
+export const searchResultSchema = z.object({
+  book: z.object({
+    shortName: shortNamesSchema,
+    line: z.number(),
+    page: z.number(),
+    pages: z.number(),
+  }),
+  context: z.object({
+    next: z.string(),
+    previous: z.string(),
+  }),
+  value: z.string(),
+  score: z.number(),
+})
+
+export const searchResultsSchema = z.array(searchResultSchema)
+
+export type SearchResult = z.infer<typeof searchResultSchema>

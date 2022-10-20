@@ -1,22 +1,20 @@
 import styled from "styled-components"
 import { Result } from "../pages"
 import { getFullBookNameByShortName } from "../services/contents"
+import { SearchResult as SearchResultType } from "../services/validation"
 import { HighlightedText } from "./HighlitedText"
 
 type SearchResultProps = {
-  result: Result
+  result: SearchResultType
   searchText: string
-  onClick: (v: Result) => void
+  onClick: (v: SearchResultType) => void
 }
 export const SearchResult: React.FC<SearchResultProps> = (props) => {
   return (
     <SearchResultWrapper onClick={() => props.onClick(props.result)}>
-      <Title>{getFullBookNameByShortName(props.result.book)}</Title>
+      <Title>{getFullBookNameByShortName(props.result.book.shortName)}</Title>
       <Text rawText={props.result.context.previous} />
-      <HighlightedText
-        text={props.result.results.item}
-        highlight={props.searchText}
-      ></HighlightedText>
+      <HighlightedText text={props.result.value} highlight={props.searchText}></HighlightedText>
       <Text rawText={props.result.context.next} />
     </SearchResultWrapper>
   )

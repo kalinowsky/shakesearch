@@ -10,23 +10,25 @@ type HeaderProps = {
 }
 export const Header: React.FC<HeaderProps> = (props) => {
   return (
-    <HeaderWrapper {...props}>
-      <Form onSubmit={props.onSubmit}>
-        <Input
-          placeholder="Search phrase..."
-          value={props.value}
-          onChange={(e) => props.setValue(e.target.value)}
-        />
-        <ButtonWrapper>
-          <Button btnType="secondary" type="button">
-            Select books
-          </Button>
-          <Button btnType="primary" type="submit">
-            Search
-          </Button>
-        </ButtonWrapper>
-      </Form>
-    </HeaderWrapper>
+    <>
+      <HeaderWrapper {...props}>
+        <Form onSubmit={props.onSubmit}>
+          <Input
+            placeholder="Search phrase..."
+            value={props.value}
+            onChange={(e) => props.setValue(e.target.value)}
+          />
+          <ButtonWrapper>
+            <Button btnType="secondary" type="button">
+              Select books
+            </Button>
+            <Button btnType="primary" type="submit">
+              Search
+            </Button>
+          </ButtonWrapper>
+        </Form>
+      </HeaderWrapper>
+    </>
   )
 }
 

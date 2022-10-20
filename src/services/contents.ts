@@ -47,8 +47,55 @@ export const contents = {
 
 export const shortNames = Object.values(contents).map((val) => val.short)
 
-export type BookNames = keyof typeof contents
-export type ShortName = typeof contents[BookNames]["short"]
+export type FullBookName = keyof typeof contents
+export type ShortBookName = typeof contents[FullBookName]["short"]
 
-export const getFullBookNameByShortName = (name: ShortName): string =>
+export const getFullBookNameByShortName = (name: ShortBookName): string =>
   Object.keys(contents).find((k) => contents[k as keyof typeof contents].short === name) || ""
+
+export const decalredShortNames = [
+  "SONN",
+  "WTEW",
+  "CLEO",
+  "AYLI",
+  "ERR",
+  "COR",
+  "CYM",
+  "HAM",
+  "FPOKHF",
+  "SPOKHF",
+  "LOKHS",
+  "FPOHS",
+  "SPOKHS",
+  "TPOKHS",
+  "KHE",
+  "JOHN",
+  "CESAR",
+  "LEAR",
+  "LLL",
+  "MAC",
+  "MFM",
+  "MOV",
+  "MWOW",
+  "MND",
+  "MAAN",
+  "OTH",
+  "PRINCE",
+  "KRS",
+  "KRT",
+  "ROMEO",
+  "TOS",
+  "TEMP",
+  "LOTOA",
+  "TITUS",
+  "HOTAC",
+  "NIGHT",
+  "TGOV",
+  "TNK",
+  "WINT",
+  "LOV",
+  "PP",
+  "PAT",
+  "ROL",
+  "VEN",
+] as const
