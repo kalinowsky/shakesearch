@@ -1,7 +1,12 @@
 import { useRouter } from "next/router"
 import { FormEvent, useEffect, useState } from "react"
 import { ShortBookName } from "../services/contents"
-import { extractBooksFromQuery, minSearchLength, SearchResult } from "../services/validation"
+import {
+  extractBooksFromQuery,
+  minSearchLength,
+  SearchResult,
+  SearchResultItem,
+} from "../services/validation"
 
 export const useSearchState = () => {
   const router = useRouter()
@@ -18,10 +23,22 @@ export const useSearchState = () => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault()
-    router.push({ pathname: "/", query: { q: searchText, books: selectedBooks.join(",") } })
+    router.push({ pathname: "/search", query: { q: searchText, books: selectedBooks.join(",") } })
+  }
+  const showMore = (e: FormEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    router.replace(
+      {
+        pathname: "/search",
+        query: { q: searchText, books: selectedBooks.join(","), all: true },
+      },
+      undefined,
+      { scroll: false }
+    )
   }
 
-  const goToRead = (book: SearchResult["book"]) =>
+  const goToRead = (book: SearchResultItem["book"]) =>
     router.push({
       pathname: "/read",
       query: { book: book.shortName, page: book.page },
@@ -37,6 +54,7 @@ export const useSearchState = () => {
     query,
     goToRead,
     onSubmit,
+    showMore,
   }
 }
 

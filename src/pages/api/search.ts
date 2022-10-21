@@ -5,17 +5,14 @@ import { extractBooksFromQuery, isString } from "../../services/validation"
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
-    const { phrase, books, limit = "20" } = req.query
+    const { phrase, books, all } = req.query
 
     if (!isString(phrase) || phrase.length < 4)
       return res.status(400).json({ error: "Too short phrase" })
 
-    if (!["all", "20"].includes(Array.isArray(limit) ? limit[0] : limit))
-      return res.status(400).json({ error: "Invalid limit" })
-
     const searchResults = searchInAll(phrase, extractBooksFromQuery(books))
-
-    const resultsWithAdditionalLines = searchResults.slice(0, 20).map((res) => ({
+    const limitedResults = all === "true" ? searchResults : searchResults.slice(0, 20)
+    const resultsWithAdditionalLines = limitedResults.map((res) => ({
       value: res.results.item,
       score: res.results.score,
       book: {
@@ -36,7 +33,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
       },
     }))
 
-    res.status(200).json(resultsWithAdditionalLines)
+    res.status(200).json({ total: searchResults.length, items: resultsWithAdditionalLines })
   } catch (err) {
     console.error(err)
   }

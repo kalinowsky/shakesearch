@@ -16,14 +16,14 @@ export const theme = {
   },
 }
 
-function App({ Component, pageProps }: AppProps) {
-  const { results } = useSearch()
+function App({ Component, pageProps, router }: AppProps) {
+  const { result: results } = useSearch()
   const state = useSearchState()
   return (
     <>
       <ThemeProvider theme={theme}>
         <SearchWrapper>
-          <Header {...state} />
+          <Header {...state} fullHeight={router.pathname === "/"} />
           <Component {...pageProps} searchResults={results} state={state} />
         </SearchWrapper>
         {state.bookSelectVisible && (

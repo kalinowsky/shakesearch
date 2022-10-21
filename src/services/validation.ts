@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { Either } from "../types"
+import { ArrayItem, Either } from "../types"
 import { ShortBookName, decalredShortNames, shortNames } from "./contents"
 
 export const isBookShortName = (v: string | string[] | undefined): v is ShortBookName =>
@@ -40,21 +40,26 @@ export const minSearchLength = z.string().min(4)
 
 export const shortNamesSchema = z.enum(decalredShortNames)
 export const searchResultSchema = z.object({
-  book: z.object({
-    shortName: shortNamesSchema,
-    line: z.number(),
-    page: z.number(),
-    size: z.number(),
-  }),
-  context: z.object({
-    next: z.string(),
-    previous: z.string(),
-  }),
-  value: z.string(),
-  score: z.number(),
+  total: z.number(),
+  items: z.array(
+    z.object({
+      book: z.object({
+        shortName: shortNamesSchema,
+        line: z.number(),
+        page: z.number(),
+        size: z.number(),
+      }),
+      context: z.object({
+        next: z.string(),
+        previous: z.string(),
+      }),
+      value: z.string(),
+      score: z.number(),
+    })
+  ),
 })
-
-export const searchResultsSchema = z.array(searchResultSchema)
 
 export type SearchResult = z.infer<typeof searchResultSchema>
 export type ReadResult = z.infer<typeof readResultSchema>
+
+export type SearchResultItem = ArrayItem<SearchResult["items"]>

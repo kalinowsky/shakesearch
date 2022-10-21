@@ -14,7 +14,7 @@ export const loadData = () => {
   const lines = data.split("\n")
   const titleLines: number[] = Object.values(contents).map((v) => v.startsAt)
 
-  const mapped = lines.map((line, index) => {
+  lines.forEach((line, index) => {
     const isTitleLine = titleLines.includes(index)
 
     if (isTitleLine) {
@@ -64,7 +64,7 @@ export const searchInAll = (v: string, books?: ShortBookName[]) => {
     .sort((a, b) => (a.results.score || 0) - (b.results.score || 0))
 }
 
-export const getBookLine = (book: ShortBookName, line: number) => booksByTitle[book][line]
+export const getBookLine = (book: ShortBookName, line: number) => booksByTitle[book][line] || ""
 export const getBookPage = (book: ShortBookName, page: number) =>
   booksByTitle[book].slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
 export const getBookSizeInLines = (book: ShortBookName) => booksByTitle[book].length

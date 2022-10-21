@@ -23,9 +23,10 @@ export type Async<T> = NotFetched | Fetching | Fetched<T> | Error
 export type Either<T> = Ok<T> | Error
 
 export type ExtractType<T> = T extends { type: infer T1 } ? T1 : never
+export type ArrayItem<T> = T extends Array<infer T2> ? T2 : never
 export type AsyncType = ExtractType<Async<any>>
 
 export type PageProps = NextPage<{
-  searchResults: Async<SearchResult[]>
+  searchResults: Async<SearchResult> | ValueState<"FetchingMore", SearchResult>
   state: HeaderStateProps
 }>
