@@ -28,17 +28,19 @@ export const getValidatedPageNumber = (page: string | string[] | undefined): Eit
     return { type: "Error", message }
   return { type: "Ok", value: pageNumber }
 }
+export const minSearchLength = z.string().min(4)
+
+export const shortNamesSchema = z.enum(decalredShortNames)
 
 export const readResultSchema = z.object({
   book: z.object({
     size: z.number(),
+    shortName: shortNamesSchema,
+    page: z.number(),
   }),
   content: z.array(z.string()),
 })
 
-export const minSearchLength = z.string().min(4)
-
-export const shortNamesSchema = z.enum(decalredShortNames)
 export const searchResultSchema = z.object({
   total: z.number(),
   search: z.object({

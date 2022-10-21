@@ -15,7 +15,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
     if (pageNumberResult.value > size) return res.status(400).json({ error: "Off-book page" })
 
     const content = getBookPage(book, pageNumberResult.value)
-    res.status(200).json({ book: { size }, content })
+    res.status(200).json({ book: { size, shortName: book, page: pageNumberResult.value }, content })
   } catch (err) {
     console.error(err)
   }

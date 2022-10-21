@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { getFullBookNameByShortName } from "../services/contents"
+import { getFullBookNameByShortName, getPageInformation } from "../services/contents"
 import { SearchResultItem } from "../services/validation"
 import { HighlightedText } from "./HighlitedText"
 
@@ -13,7 +13,7 @@ export const SearchResult: React.FC<SearchResultProps> = (props) => {
   return (
     <SearchResultWrapper onClick={props.onClick}>
       <Title>{getFullBookNameByShortName(props.result.book.shortName)}</Title>
-      <Page>{`Page ${props.result.book.page}/${props.result.book.size}`}</Page>
+      <Page>{`Page ${getPageInformation(props.result.book)}`}</Page>
       <Text rawText={props.result.context.previous} />
       <HighlightedText text={props.result.value} highlight={props.searchText}></HighlightedText>
       <Text rawText={props.result.context.next} />
@@ -23,13 +23,17 @@ export const SearchResult: React.FC<SearchResultProps> = (props) => {
 
 export const Text: React.FC<{ rawText: string }> = (props) => {
   return (
-    <div
+    <TextContent
       dangerouslySetInnerHTML={{
         __html: props.rawText.replace(new RegExp("\r", "g"), "<br />"),
       }}
     />
   )
 }
+
+const TextContent = styled.div`
+  width: 400px;
+`
 
 const Title = styled.h3`
   margin: 0;
