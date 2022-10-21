@@ -22,7 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
         shortName: res.book,
         line: res.results.refIndex,
         page: Math.floor(res.results.refIndex / 30),
-        pages: getBookSizeInPages(res.book as ShortBookName),
+        size: getBookSizeInPages(res.book as ShortBookName),
       },
       context: {
         next:

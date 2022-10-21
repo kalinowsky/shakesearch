@@ -1,7 +1,12 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { ShortBookName } from "../services/contents"
-import { getValidatedPageNumber, isBookShortName, readResultSchema } from "../services/validation"
+import {
+  getValidatedPageNumber,
+  isBookShortName,
+  ReadResult,
+  readResultSchema,
+} from "../services/validation"
 import { Async, F0, F1 } from "../types"
 
 const API_URL = "/api/read?"
@@ -11,16 +16,17 @@ const buildUrl = (url: string, book: ShortBookName, page: number) =>
 
 export const useRead = (): {
   goToPage: F1<"next" | "previous", F0>
-  results: Async<string[]>
+  canGoToPage: F1<"next" | "previous", boolean>
+  results: Async<ReadResult>
 } => {
   const router = useRouter()
-  const [results, setResults] = useState<Async<string[]>>({ type: "NotFetched" })
+  const [results, setResults] = useState<Async<ReadResult>>({ type: "NotFetched" })
+  const pageNumber = getValidatedPageNumber(router.query.page)
 
   useEffect(() => {
-    const { book, page } = router.query || {}
+    const { book } = router.query || {}
     if (!isBookShortName(book)) return setResults({ type: "Error", message: "Invalid book" })
 
-    const pageNumber = getValidatedPageNumber(page)
     if (pageNumber.type === "Error") return setResults({ type: "Error", message: "Invalid page" })
     read(book, pageNumber.value)
 
@@ -40,8 +46,6 @@ export const useRead = (): {
   }
 
   const goToPage = (move: "next" | "previous") => () => {
-    const { page } = router.query
-    const pageNumber = getValidatedPageNumber(page)
     if (pageNumber.type === "Error" || (pageNumber.value === 0 && move === "previous")) return
     router.push({
       pathname: "/read",
@@ -52,5 +56,17 @@ export const useRead = (): {
     })
   }
 
-  return { goToPage, results }
+  const canGoToPage = (move: "next" | "previous") => {
+    if (pageNumber.type === "Error") return true
+    if (pageNumber.value === 0 && move === "previous") return true
+    if (
+      results.type === "Fetched" &&
+      pageNumber.value === results.value.book.size - 1 &&
+      move === "next"
+    )
+      return true
+    return false
+  }
+
+  return { goToPage, results, canGoToPage }
 }

@@ -4,17 +4,21 @@ import { useRead } from "../hooks/useRead"
 import { PageProps } from "../types"
 
 const Read: PageProps = () => {
-  const { results, goToPage } = useRead()
+  const { results, goToPage, canGoToPage } = useRead()
   return (
     <div>
       {results.type === "Fetched" && (
         <>
-          <Text rawText={results.value.join("")} />
+          <Text rawText={results.value.content.join("")} />
           <div>
-            <Button btnType="secondary" onClick={goToPage("previous")}>
+            <Button
+              btnType="secondary"
+              disabled={canGoToPage("previous")}
+              onClick={goToPage("previous")}
+            >
               Previous
             </Button>
-            <Button btnType="secondary" onClick={goToPage("next")}>
+            <Button btnType="secondary" disabled={canGoToPage("next")} onClick={goToPage("next")}>
               Next
             </Button>
           </div>

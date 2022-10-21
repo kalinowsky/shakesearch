@@ -29,7 +29,12 @@ export const getValidatedPageNumber = (page: string | string[] | undefined): Eit
   return { type: "Ok", value: pageNumber }
 }
 
-export const readResultSchema = z.array(z.string())
+export const readResultSchema = z.object({
+  book: z.object({
+    size: z.number(),
+  }),
+  content: z.array(z.string()),
+})
 
 export const minSearchLength = z.string().min(4)
 
@@ -39,7 +44,7 @@ export const searchResultSchema = z.object({
     shortName: shortNamesSchema,
     line: z.number(),
     page: z.number(),
-    pages: z.number(),
+    size: z.number(),
   }),
   context: z.object({
     next: z.string(),
@@ -52,3 +57,4 @@ export const searchResultSchema = z.object({
 export const searchResultsSchema = z.array(searchResultSchema)
 
 export type SearchResult = z.infer<typeof searchResultSchema>
+export type ReadResult = z.infer<typeof readResultSchema>
