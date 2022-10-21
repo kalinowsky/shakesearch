@@ -65,13 +65,14 @@ const Overlay = styled.div`
   justify-content: center;
   align-items: center;
   transition: all 0.5s ease;
+  z-index: 100;
 `
 const Content = styled.div`
   width: 600px;
   height: 600px;
   overflow-y: scroll;
   background: #e3dfe3;
-  z-index: 10;
+  z-index: 200;
   @media only screen and (max-width: 640px) {
     width: 100%;
     height: 100%;

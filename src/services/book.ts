@@ -18,8 +18,6 @@ export const loadData = () => {
     const isTitleLine = titleLines.includes(index)
 
     if (isTitleLine) {
-      // const title = Object.values(contents).find((v) => v.startsAt === index)?.short
-      // const currentTitle = title
       currentTitle = Object.values(contents).find((v) => v.startsAt === index)?.short || null
     }
 

@@ -22,8 +22,8 @@ function App({ Component, pageProps, router }: AppProps) {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <Header {...state} fullHeight={router.pathname === "/"} />
         <SearchWrapper>
-          <Header {...state} fullHeight={router.pathname === "/"} />
           <Component {...pageProps} searchResults={results} state={state} />
         </SearchWrapper>
         {state.bookSelectVisible && (

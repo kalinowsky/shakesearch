@@ -32,16 +32,18 @@ export const useSearch = (): {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.q, query.books, query.all])
 
-  const search = async (name: string, books?: ShortBookName[]) => {
+  const search = async (phrase: string, books?: ShortBookName[]) => {
     setResults((state) =>
-      state.type === "Fetched" ? { ...state, type: "FetchingMore" } : { type: "Fetching" }
+      state.type === "Fetched" && state.value.search.phrase === phrase
+        ? { ...state, type: "FetchingMore" }
+        : { type: "Fetching" }
     )
-    if (!minSearchLength.safeParse(name).success)
+    if (!minSearchLength.safeParse(phrase.trim()).success)
       return setResults({ type: "Error", message: "Too short name" })
     if (!(typeof books === "undefined" || isBooksArgument(books)))
       return setResults({ type: "Error", message: "Invalid books" })
     try {
-      const response = await fetch(buildUrl(API_URL, name, books || [], !!query.all))
+      const response = await fetch(buildUrl(API_URL, phrase, books || [], !!query.all))
       const data = await response.json()
       const validationResult = searchResultSchema.safeParse(data)
       if (validationResult.success) setResults({ type: "Fetched", value: validationResult.data })

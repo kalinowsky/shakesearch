@@ -2,13 +2,18 @@ import React from "react"
 import styled from "styled-components"
 import { Button } from "../components/Button"
 import { SearchResult } from "../components/SearchResult"
+import { Spinnner } from "../components/Spinner"
 import { PageProps } from "../types"
 
 const SearchResults: PageProps = (props) => {
   const { searchResults: results, state } = props
   return (
-    <div>
-      {results.type === "Fetching" && <div>loading</div>}
+    <>
+      {results.type === "Fetching" && (
+        <SpinnerWrapper>
+          <Spinnner />
+        </SpinnerWrapper>
+      )}
       {results.type === "Error" && results.message}
       {(results.type === "Fetched" || results.type === "FetchingMore") && (
         <ResultsWrapper>
@@ -30,11 +35,23 @@ const SearchResults: PageProps = (props) => {
           )}
         </ResultsWrapper>
       )}
-    </div>
+    </>
   )
 }
 
 export default SearchResults
+
+const SpinnerWrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #efefef;
+`
 
 const ResultsWrapper = styled.div`
   display: flex;

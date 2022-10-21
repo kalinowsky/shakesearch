@@ -10,7 +10,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
     if (!isString(phrase) || phrase.length < 4)
       return res.status(400).json({ error: "Too short phrase" })
 
-    const searchResults = searchInAll(phrase, extractBooksFromQuery(books))
+    const validatedBooks = extractBooksFromQuery(books)
+    const searchResults = searchInAll(phrase, validatedBooks)
     const limitedResults = all === "true" ? searchResults : searchResults.slice(0, 20)
     const resultsWithAdditionalLines = limitedResults.map((res) => ({
       value: res.results.item,
@@ -33,7 +34,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
       },
     }))
 
-    res.status(200).json({ total: searchResults.length, items: resultsWithAdditionalLines })
+    res.status(200).json({
+      total: searchResults.length,
+      items: resultsWithAdditionalLines,
+      search: { phrase, books: validatedBooks },
+    })
   } catch (err) {
     console.error(err)
   }

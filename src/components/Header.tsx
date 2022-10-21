@@ -9,7 +9,7 @@ export const Header: React.FC<HeaderStateProps & { fullHeight?: boolean }> = (pr
   return (
     <>
       <HeaderWrapper {...props}>
-        <Link href="/">
+        <Link href={"/"}>
           <ImageWrapper>
             <Image src="/shakespeare.svg" alt="me" width="64" height="64" />
           </ImageWrapper>
@@ -55,6 +55,8 @@ const HeaderWrapper = styled.header<{ fullHeight?: boolean }>`
   align-items: center;
   border-bottom: 1px solid #dadada;
   transition: all 0.5s ease;
+  position: fixed;
+  z-index: 100;
 `
 
 const Input = styled.input`

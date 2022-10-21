@@ -41,6 +41,10 @@ export const minSearchLength = z.string().min(4)
 export const shortNamesSchema = z.enum(decalredShortNames)
 export const searchResultSchema = z.object({
   total: z.number(),
+  search: z.object({
+    phrase: z.string(),
+    books: z.array(shortNamesSchema),
+  }),
   items: z.array(
     z.object({
       book: z.object({
