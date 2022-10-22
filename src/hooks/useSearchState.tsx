@@ -1,12 +1,7 @@
 import { useRouter } from "next/router"
 import { FormEvent, useEffect, useState } from "react"
 import { ShortBookName } from "../services/contents"
-import {
-  extractBooksFromQuery,
-  minSearchLength,
-  SearchResult,
-  SearchResultItem,
-} from "../services/validation"
+import { extractBooksFromQuery, minSearchLength, SearchResultItem } from "../services/validation"
 
 export const useSearchState = () => {
   const router = useRouter()

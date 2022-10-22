@@ -35,6 +35,7 @@ export const useRead = (): {
 
   const read = async (book: ShortBookName, page: number) => {
     try {
+      setResults({ type: "Fetching" })
       const response = await fetch(buildUrl(API_URL, book, page))
       const data = await response.json()
       const validationResult = readResultSchema.safeParse(data)
