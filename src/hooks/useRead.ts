@@ -7,7 +7,7 @@ import {
   ReadResult,
   readResultSchema,
 } from "../services/validation"
-import { Async, F0, F1 } from "../types"
+import { AsyncWithPersistence, F0, F1 } from "../types"
 
 const API_URL = "/api/read?"
 
@@ -17,10 +17,10 @@ const buildUrl = (url: string, book: ShortBookName, page: number) =>
 export const useRead = (): {
   goToPage: F1<"next" | "previous", F0>
   canGoToPage: F1<"next" | "previous", boolean>
-  results: Async<ReadResult>
+  results: AsyncWithPersistence<ReadResult>
 } => {
   const router = useRouter()
-  const [results, setResults] = useState<Async<ReadResult>>({ type: "NotFetched" })
+  const [results, setResults] = useState<AsyncWithPersistence<ReadResult>>({ type: "NotFetched" })
   const pageNumber = getValidatedPageNumber(router.query.page)
 
   useEffect(() => {
@@ -35,7 +35,11 @@ export const useRead = (): {
 
   const read = async (book: ShortBookName, page: number) => {
     try {
-      setResults({ type: "Fetching" })
+      setResults((result) =>
+        result.type === "Fetched"
+          ? { type: "FetchingMore", value: result.value }
+          : { type: "Fetching" }
+      )
       const response = await fetch(buildUrl(API_URL, book, page))
       const data = await response.json()
       const validationResult = readResultSchema.safeParse(data)

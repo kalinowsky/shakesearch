@@ -3,21 +3,23 @@ import styled from "styled-components"
 import { Button } from "../components/Button"
 import { SearchResult } from "../components/SearchResult"
 import { Spinnner } from "../components/Spinner"
+import { useSearch } from "../hooks/useSearch"
 import { PageProps } from "../types"
 
 const SearchResults: PageProps = (props) => {
-  const { searchResults: results, state } = props
+  const { result } = useSearch()
+  const { state } = props
   return (
     <>
-      {results.type === "Fetching" && (
+      {result.type === "Fetching" && (
         <SpinnerWrapper>
           <Spinnner />
         </SpinnerWrapper>
       )}
-      {results.type === "Error" && results.message}
-      {(results.type === "Fetched" || results.type === "FetchingMore") && (
+      {result.type === "Error" && result.message}
+      {(result.type === "Fetched" || result.type === "FetchingMore") && (
         <ResultsWrapper>
-          {results.value.items.map((v) => (
+          {result.value.items.map((v) => (
             <React.Fragment key={v.book.line}>
               <SearchResult
                 result={v}
@@ -26,11 +28,11 @@ const SearchResults: PageProps = (props) => {
               />
             </React.Fragment>
           ))}
-          {results.value.total !== results.value.items.length && (
+          {result.value.total !== result.value.items.length && (
             <Button btnType="primary" type="button" onClick={state.showMore}>
-              {results.type === "FetchingMore"
+              {result.type === "FetchingMore"
                 ? "Loading"
-                : `Show ${results.value.total - 20} more results`}
+                : `Show ${result.value.total - 20} more results`}
             </Button>
           )}
         </ResultsWrapper>

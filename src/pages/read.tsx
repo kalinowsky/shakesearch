@@ -10,7 +10,7 @@ const Read: PageProps = () => {
   const { results, goToPage, canGoToPage } = useRead()
   return (
     <div>
-      {results.type === "Fetched" && (
+      {(results.type === "Fetched" || results.type === "FetchingMore") && (
         <>
           <BookDetails book={results.value.book} />
           <Wrapper>

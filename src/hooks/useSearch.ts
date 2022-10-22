@@ -7,7 +7,7 @@ import {
   SearchResult,
   searchResultSchema,
 } from "../services/validation"
-import { Async, F2, ValueState } from "../types"
+import { Async, AsyncWithPersistence, F2, ValueState } from "../types"
 import { extractBooksFromQuery } from "../services/validation"
 
 const API_URL = "/api/search?"
@@ -17,13 +17,9 @@ const buildUrl = (url: string, name: string, books: string[], all: boolean) =>
 
 export const useSearch = (): {
   search: F2<string, ShortBookName[], Promise<void>>
-  result: Async<SearchResult> | ValueState<"FetchingMore", SearchResult>
+  result: AsyncWithPersistence<SearchResult>
 } => {
-  const [results, setResults] = useState<
-    Async<SearchResult> | ValueState<"FetchingMore", SearchResult>
-  >({
-    type: "NotFetched",
-  })
+  const [results, setResults] = useState<AsyncWithPersistence<SearchResult>>({ type: "NotFetched" })
   const { query } = useRouter()
 
   useEffect(() => {
