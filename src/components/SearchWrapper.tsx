@@ -5,4 +5,8 @@ export const SearchWrapper = styled.div`
   width: 100vw;
   height: 100%;
   padding: 120px 0 60px;
+
+  @media only screen and (max-width: 480px) {
+    padding: 180px 0 60px;
+  }
 `

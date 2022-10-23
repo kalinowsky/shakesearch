@@ -4,6 +4,7 @@ import { HeaderStateProps } from "../hooks/useSearchState"
 import { getFullBookNameByShortName, ShortBookName } from "../services/contents"
 import { Button } from "./Button"
 import Link from "next/link"
+import { Input } from "./Input"
 
 export const Header: React.FC<HeaderStateProps & { fullHeight?: boolean }> = (props) => {
   return (
@@ -18,13 +19,19 @@ export const Header: React.FC<HeaderStateProps & { fullHeight?: boolean }> = (pr
           <Input
             placeholder="Search phrase..."
             value={props.searchText}
-            onChange={(e) => props.setSearchText(e.target.value)}
+            setValue={props.setSearchText}
+            error={
+              props.submitted && props.inputValidation.type === "Error"
+                ? props.inputValidation.message
+                : ""
+            }
           />
+
           <ButtonWrapper>
             <Button
               btnType="secondary"
               type="button"
-              onClick={() => props.setBookSelectVisible(true)}
+              onClick={() => props.setBookSelectModalVisible(true)}
               width="300px"
             >
               {getSelectBooksButtonName(props.selectedBooks)}
@@ -57,32 +64,42 @@ const HeaderWrapper = styled.header<{ fullHeight?: boolean }>`
   transition: all 0.5s ease;
   position: fixed;
   z-index: 100;
-`
 
-const Input = styled.input`
-  width: 300px;
-  height: 40px;
-  outline: none;
-  border: 0;
-  border-radius: 4px;
-  padding: 0 16px;
-  box-sizing: border-box;
-  font-size: 18px;
-  border: 1px solid #e6e6e6;
+  @media only screen and (max-width: 640px) {
+    height: ${(props) => (props.fullHeight ? "100vh" : "160px")};
+  }
 `
 
 const Form = styled.form`
   * {
     margin-left: 24px;
   }
+
+  @media only screen and (max-width: 640px) {
+    * {
+      margin-left: 0px;
+      margin-bottom: 6px;
+    }
+  }
 `
 
 const ButtonWrapper = styled.div`
   display: inline-flex;
+
+  @media only screen and (max-width: 640px) {
+    display: flex;
+    flex-direction: column;
+  }
 `
 const ImageWrapper = styled.div`
   position: absolute;
   left: 24px;
   top: 24px;
   cursor: pointer;
+
+  @media only screen and (max-width: 640px) {
+    left: 6px;
+    top: 6px;
+    width: 36px;
+  }
 `

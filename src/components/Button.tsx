@@ -18,4 +18,12 @@ export const Button = styled.button<{ btnType: string; width?: string }>`
   text-overflow: ellipsis;
   overflow: hidden;
   display: inline-block;
+
+  @media only screen and (max-width: 960px) {
+    width: 150px;
+  }
+
+  @media only screen and (max-width: 640px) {
+    width: 300px;
+  }
 `

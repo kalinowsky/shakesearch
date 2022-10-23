@@ -25,13 +25,13 @@ function App({ Component, pageProps, router }: AppProps) {
         <SearchWrapper>
           <Component {...pageProps} state={state} />
         </SearchWrapper>
-        {state.bookSelectVisible && (
+        {state.bookSelectModalVisible && (
           <BookSelectModal
             {...state}
-            visible={state.bookSelectVisible}
+            visible={state.bookSelectModalVisible}
             onClose={(books) => {
               state.setSelectedBooks(books)
-              state.setBookSelectVisible(false)
+              state.setBookSelectModalVisible(false)
             }}
           />
         )}
