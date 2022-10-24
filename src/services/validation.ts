@@ -23,7 +23,7 @@ export const getValidatedPageNumber = (page: string | string[] | undefined): Eit
     typeof pageNumber !== "number" ||
     isNaN(pageNumber) ||
     pageNumber < 0 ||
-    !Number.isInteger(pageNumber)
+    !Number.isInteger(parseFloat(page))
   )
     return { type: "Error", message }
   return { type: "Ok", value: pageNumber }
