@@ -28,6 +28,7 @@ export const getValidatedPageNumber = (page: string | string[] | undefined): Eit
     return { type: "Error", message }
   return { type: "Ok", value: pageNumber }
 }
+
 export const minSearchLength = z.string().min(4)
 
 export const shortNamesSchema = z.enum(decalredShortNames)
@@ -64,6 +65,8 @@ export const searchResultSchema = z.object({
     })
   ),
 })
+
+export const errorResutSchema = z.object({ error: z.string() })
 
 export type SearchResult = z.infer<typeof searchResultSchema>
 export type ReadResult = z.infer<typeof readResultSchema>

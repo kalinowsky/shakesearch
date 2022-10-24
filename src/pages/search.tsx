@@ -1,25 +1,28 @@
 import React from "react"
 import styled from "styled-components"
 import { Button } from "../components/Button"
+import { InfoText } from "../components/InfoText"
 import { SearchResult } from "../components/SearchResult"
 import { Spinnner } from "../components/Spinner"
 import { useSearch } from "../hooks/useSearch"
 import { PageProps } from "../types"
 
 const SearchResults: PageProps = (props) => {
-  const { result } = useSearch()
+  const { results } = useSearch()
   const { state } = props
   return (
     <>
-      {result.type === "Fetching" && (
+      {results.type === "Fetching" && (
         <SpinnerWrapper>
           <Spinnner />
         </SpinnerWrapper>
       )}
-      {result.type === "Error" && result.message}
-      {(result.type === "Fetched" || result.type === "FetchingMore") && (
+      {results.type === "Error" && <InfoText>{results.message}</InfoText>}
+      {(results.type === "Fetched" || results.type === "FetchingMore") &&
+        results.value.total === 0 && <InfoText>No results</InfoText>}
+      {(results.type === "Fetched" || results.type === "FetchingMore") && (
         <ResultsWrapper>
-          {result.value.items.map((v) => (
+          {results.value.items.map((v) => (
             <React.Fragment key={v.book.line}>
               <SearchResult
                 result={v}
@@ -28,11 +31,11 @@ const SearchResults: PageProps = (props) => {
               />
             </React.Fragment>
           ))}
-          {result.value.total !== result.value.items.length && (
+          {results.value.total !== results.value.items.length && (
             <Button btnType="primary" type="button" onClick={state.showMore}>
-              {result.type === "FetchingMore"
+              {results.type === "FetchingMore"
                 ? "Loading"
-                : `Show ${result.value.total - 20} more results`}
+                : `Show ${results.value.total - 20} more results`}
             </Button>
           )}
         </ResultsWrapper>
@@ -52,7 +55,7 @@ const SpinnerWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #efefef;
+  background-color: ${(props) => props.theme.colors.background};
 `
 
 const ResultsWrapper = styled.div`

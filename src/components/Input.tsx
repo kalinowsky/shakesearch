@@ -43,7 +43,7 @@ const InputWrapper = styled.div`
 `
 
 const Error = styled.p`
-  color: #dd4141;
+  color: ${(props) => props.theme.colors.danger};
   margin-top: 0;
   margin-bottom: 0;
   font-size: 14px;

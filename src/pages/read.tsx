@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { Chevron } from "../components/Chevron"
+import { InfoText } from "../components/InfoText"
 import { Text } from "../components/SearchResult"
 import { useRead } from "../hooks/useRead"
 import { getFullBookNameByShortName, getPageInformation } from "../services/contents"
@@ -10,6 +11,7 @@ const Read: PageProps = () => {
   const { results, goToPage, canGoToPage } = useRead()
   return (
     <div>
+      {results.type === "Error" && <InfoText>{results.message}</InfoText>}
       {(results.type === "Fetched" || results.type === "FetchingMore") && (
         <>
           <BookDetails book={results.value.book} />

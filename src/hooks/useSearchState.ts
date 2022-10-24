@@ -50,7 +50,7 @@ export const useSearchState = () => {
     setState((state) => ({
       ...state,
       searchText: queryResult.success ? queryResult.data : state.searchText,
-      books: extractBooksFromQuery(books),
+      selectedBooks: extractBooksFromQuery(books),
     }))
   }, [query.q, query.books])
 

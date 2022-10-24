@@ -2,7 +2,6 @@ import "../../styles/globals.css"
 import type { AppProps } from "next/app"
 import { ThemeProvider } from "styled-components"
 import { SearchWrapper } from "../components/SearchWrapper"
-import { useSearch } from "../hooks/useSearch"
 import { Header } from "../components/Header"
 import { useSearchState } from "../hooks/useSearchState"
 import { BookSelectModal } from "../components/BookSelectModal"
@@ -13,6 +12,10 @@ export const theme = {
     background: "#efefef",
     primary: "#5e2dc2",
     secondary: "#ffffff",
+    black: "#000000",
+    white: "#ffffff",
+    grey: "#b0b0b0",
+    danger: "#dd4141",
   },
 }
 

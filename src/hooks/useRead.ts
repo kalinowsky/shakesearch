@@ -2,6 +2,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { ShortBookName } from "../services/contents"
 import {
+  errorResutSchema,
   getValidatedPageNumber,
   isBookShortName,
   ReadResult,
@@ -26,7 +27,6 @@ export const useRead = (): {
   useEffect(() => {
     const { book } = router.query || {}
     if (!isBookShortName(book)) return setResults({ type: "Error", message: "Invalid book" })
-
     if (pageNumber.type === "Error") return setResults({ type: "Error", message: "Invalid page" })
     read(book, pageNumber.value)
 
@@ -43,7 +43,9 @@ export const useRead = (): {
       const response = await fetch(buildUrl(API_URL, book, page))
       const data = await response.json()
       const validationResult = readResultSchema.safeParse(data)
+      const errorResult = errorResutSchema.safeParse(data)
       if (validationResult.success) setResults({ type: "Fetched", value: validationResult.data })
+      else if (errorResult.success) setResults({ type: "Error", message: errorResult.data.error })
       else setResults({ type: "Error", message: "Could not validate incoming data" })
     } catch (err) {
       setResults({ type: "Error", message: String(err) })
