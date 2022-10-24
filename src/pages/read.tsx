@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { Chevron } from "../components/Chevron"
 import { InfoText } from "../components/InfoText"
 import { Text } from "../components/SearchResult"
+import { Spinner } from "../components/Spinner"
 import { useRead } from "../hooks/useRead"
 import { getFullBookNameByShortName, getPageInformation } from "../services/contents"
 import { ReadResult } from "../services/validation"
@@ -11,6 +12,7 @@ const Read: PageProps = () => {
   const { results, goToPage, canGoToPage } = useRead()
   return (
     <div>
+      {results.type === "Fetching" && <Spinner />}
       {results.type === "Error" && <InfoText>{results.message}</InfoText>}
       {(results.type === "Fetched" || results.type === "FetchingMore") && (
         <>

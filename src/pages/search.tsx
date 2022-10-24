@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Button } from "../components/Button"
 import { InfoText } from "../components/InfoText"
 import { SearchResult } from "../components/SearchResult"
-import { Spinnner } from "../components/Spinner"
+import { Spinner } from "../components/Spinner"
 import { useSearch } from "../hooks/useSearch"
 import { PageProps } from "../types"
 
@@ -12,11 +12,7 @@ const SearchResults: PageProps = (props) => {
   const { state } = props
   return (
     <>
-      {results.type === "Fetching" && (
-        <SpinnerWrapper>
-          <Spinnner />
-        </SpinnerWrapper>
-      )}
+      {results.type === "Fetching" && <Spinner />}
       {results.type === "Error" && <InfoText>{results.message}</InfoText>}
       {(results.type === "Fetched" || results.type === "FetchingMore") &&
         results.value.total === 0 && <InfoText>No results</InfoText>}
@@ -45,18 +41,6 @@ const SearchResults: PageProps = (props) => {
 }
 
 export default SearchResults
-
-const SpinnerWrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: ${(props) => props.theme.colors.background};
-`
 
 const ResultsWrapper = styled.div`
   display: flex;

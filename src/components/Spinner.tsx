@@ -1,6 +1,24 @@
 import styled from "styled-components"
 
-export const Spinnner = styled.div`
+export const Spinner = () => (
+  <SpinnerWrapper>
+    <SpinnnerIcon />
+  </SpinnerWrapper>
+)
+
+const SpinnerWrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: ${(props) => props.theme.colors.background};
+`
+
+const SpinnnerIcon = styled.div`
   font-size: 10px;
   margin: 50px auto;
   text-indent: -9999em;
@@ -30,7 +48,7 @@ export const Spinnner = styled.div`
     content: "";
   }
   &:after {
-    background: white;
+    background: ${(p) => p.theme.colors.background};
     width: 75%;
     height: 75%;
     border-radius: 50%;
