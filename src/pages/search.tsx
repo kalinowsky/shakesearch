@@ -22,7 +22,7 @@ const SearchResults: PageProps = (props) => {
             <React.Fragment key={v.book.line}>
               <SearchResult
                 result={v}
-                searchText={state.searchText}
+                searchText={results.value.search.phrase}
                 onClick={() => state.goToRead(v.book)}
               />
             </React.Fragment>

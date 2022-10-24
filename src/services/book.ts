@@ -39,6 +39,7 @@ const mapBooksToSearchEngines = (booksByTitle: Record<ShortBookName, string[]>) 
     includeScore: true,
     keys: ["value"],
     threshold: 0.25,
+    distance: 150,
   }
   return Object.fromEntries(
     Object.keys(booksByTitle).map((key) => [
