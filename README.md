@@ -1,31 +1,42 @@
 # ShakeSearch
 
-Welcome to the Pulley Shakesearch Take-home Challenge! In this repository,
-you'll find a simple web app that allows a user to search for a text string in
-the complete works of Shakespeare.
+### Before first lunch
 
-You can see a live version of the app at
-https://pulley-shakesearch.herokuapp.com/. Try searching for "Hamlet" to display
-a set of results.
+`yarn install`
 
-In it's current state, however, the app is in rough shape. The search is
-case sensitive, the results are difficult to read, and the search is limited to
-exact matches.
+### Run locally
 
-## Your Mission
+`yarn dev`
 
-Improve the app! Think about the problem from the **user's perspective**
-and prioritize your changes according to what you think is most useful.
+### Run tests
 
-You can approach this with a back-end, front-end, or full-stack focus.
+`yarn test`
 
-## Evaluation
+## Project description
 
-We will be primarily evaluating based on how well the search works for users. A search result with a lot of features (i.e. multi-words and mis-spellings handled), but with results that are hard to read would not be a strong submission.
+### Features...
 
-## Submission
+- Parameterised search results - it's usefull when user wants to send somebody specific search results or book page so query params are source of true for this app
+- Fuzzy search by fuse.js - this but can be improved for sure but will handle with typo like "HAMLTE"
+- Presenting results with lines before and after for giving context, marking exact match text and giving some additional data like book title and page number
+- Book reading - user is able to open a book on a page with results
+- Book selecting - we can spcify to look in specific books what decrease search time and will give better results
+- Show more button for more than 20 results - it's not a perfect solution but helps to decrese a transfer
+- Mobile support - it's only done to render properly and be fully usefull on all screen sizes - for better user experience portrait and tablet viewports could be handle better
 
-1. Fork this repository and send us a link to your fork after pushing your changes.
-2. Heroku hosting - The project includes a Heroku Procfile and, in its
-   current state, can be deployed easily on Heroku's free tier.
-3. In your submission, share with us what changes you made and how you would prioritize changes if you had more time.
+### More technically....
+
+- App is built with TypeScript and Next.js (mostly because it's ready to go setup of backend node app and react typescript frontend)
+- Fully validated and typesafe data - thanks to typescript and validators app will handle any error without crash. App prefer and use type validation over type casting
+- All logic is extracted from components to hooks so we have "dumb components" which focus mostly on presenting data
+- Global state - I could use redux or react contex & useReducer but in fact one custom hook with proper state was enough for this app I believe
+- Tests for most crucial business logic
+
+### Things to improve in future
+
+- Search could be more precise and faster (maybe it'd be better to save books in some locally db?)
+- Pagination / infinite scroll for better loading results experience
+- Better mobile support / maybe adding dark mode (it'd be quite easy to do as app use using styled components with theme provider)
+- Book reading feature - would be cool if user can just open a specific book and start reading from the first page
+- Adding maybe some E2E tests by cypress
+- Change logo which I've created in one minute
