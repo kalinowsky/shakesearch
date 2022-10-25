@@ -90,6 +90,7 @@ const Content = styled.div`
   border: 1px solid ${(props) => props.theme.colors.grey};
   border-radius: 4px;
   position: relative;
+
   @media only screen and (max-width: 640px) {
     width: 100%;
     height: 100%;
@@ -108,6 +109,10 @@ const Footer = styled.div`
   border-top: 1px solid ${(props) => props.theme.colors.grey};
   padding: 16px;
   box-sizing: border-box;
+
+  @media only screen and (max-width: 640px) {
+    justify-content: center;
+  }
 `
 
 const Results = styled.div`
@@ -130,6 +135,10 @@ const Header = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.colors.grey};
   padding: 16px;
   box-sizing: border-box;
+
+  @media only screen and (max-width: 640px) {
+    height: 170px;
+  }
 `
 
 const Helpers = styled.div`
@@ -138,6 +147,18 @@ const Helpers = styled.div`
   height: 40px;
   box-sizing: border-box;
   margin-bottom: 8px;
+
+  @media only screen and (max-width: 640px) {
+    flex-direction: column;
+    height: 60px;
+    flex-direction: column;
+    height: 70px;
+    justify-content: space-between;
+    margin-bottom: 0px;
+    input {
+      width: 100%;
+    }
+  }
 `
 
 const ActionsWrapper = styled.div`

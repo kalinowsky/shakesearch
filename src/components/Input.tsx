@@ -21,7 +21,6 @@ const InputElement = styled.input`
   width: 300px;
   height: 40px;
   outline: none;
-  border: 0;
   border-radius: 4px;
   padding: 0 16px;
   box-sizing: border-box;
@@ -38,7 +37,7 @@ const InputWrapper = styled.div`
   display: inline-grid;
 
   @media only screen and (max-width: 960px) {
-    width: 150px;
+    width: 100%;
   }
 `
 

@@ -29,6 +29,10 @@ const BookDetailsInnerWrapper = styled.div`
   justify-content: space-between;
   width: 100%;
   max-width: 800px;
+
+  @media only screen and (max-width: 640px) {
+    padding: 0 16px;
+  }
 `
 
 const Width = styled.div`
@@ -36,6 +40,14 @@ const Width = styled.div`
   justify-content: space-between;
   max-width: 600px;
   width: 100%;
+
+  @media only screen and (max-width: 640px) {
+    max-width: 190px;
+    font-size: 14px;
+    justify-content: center;
+    display: flex;
+    font-size: 14px !important;
+  }
 `
 
 const BookNav = styled.nav`

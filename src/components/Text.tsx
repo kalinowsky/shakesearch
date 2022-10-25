@@ -17,6 +17,10 @@ const TextContent = styled.div<{ markTitle?: boolean; center?: boolean }>`
   font-family: "Lora";
   font-size: 17px;
 
+  @media only screen and (max-width: 480px) {
+    width: 300px;
+  }
+
   ${(props) =>
     props.center
       ? "display: flex; justify-content: center; margin-top: 32px; font-size: 16px;"
@@ -31,10 +35,13 @@ const TextContent = styled.div<{ markTitle?: boolean; center?: boolean }>`
   justify-content: center;
   display: flex;
   align-items: center;
-  `
-      : ""}
 
   @media only screen and (max-width: 480px) {
     width: 300px;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+  `
+      : ""}
 `
