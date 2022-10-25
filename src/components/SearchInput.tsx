@@ -30,6 +30,7 @@ const getSelectBooksButtonName = (selectedBooks: ShortBookName[]): string =>
 
 const Wrapper = styled.div`
   display: flex;
+  position: relative;
 `
 
 const FormWrapper = styled.form`
@@ -101,4 +102,9 @@ const Error = styled.div`
   font-size: 14px;
   position: absolute;
   margin-top: 4px;
+  bottom: -18px;
+
+  @media only screen and (max-width: 480px) {
+    left: 16px;
+  }
 `
