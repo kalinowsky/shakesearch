@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { contents, FullBookName, ShortBookName } from "../services/contents"
+import { contents, decalredShortNames, FullBookName, ShortBookName } from "../services/contents"
+import { ActionText } from "./ActionText"
 import { BookSelectItem } from "./BookSelectItem"
 import { Button } from "./Button"
+import { Input } from "./Input"
 
 type BookSelectProps = {
   selectedBooks: ShortBookName[]
@@ -12,6 +14,7 @@ type BookSelectProps = {
 
 export const BookSelectModal: React.FC<BookSelectProps> = (props) => {
   const [selectedBooks, setSelectedBooks] = useState<ShortBookName[]>(props.selectedBooks)
+  const [filter, setFilter] = useState("")
   const toggleBook = (v: ShortBookName) => () => {
     if (selectedBooks.includes(v)) setSelectedBooks(selectedBooks.filter((book) => book !== v))
     else {
@@ -28,19 +31,32 @@ export const BookSelectModal: React.FC<BookSelectProps> = (props) => {
       onClick={() => props.onClose(props.selectedBooks)}
     >
       <Content onClick={(e) => e.stopPropagation()}>
-        <Header>Select the books you wish to search in</Header>
+        <Header>
+          <TextAsdf>If no books are selected search will use all books by default</TextAsdf>
+          <Helpers>
+            <Input value={filter} setValue={setFilter} placeholder="Book name..." />
+            <ActionsWrapper>
+              <ActionText onClick={() => setSelectedBooks(decalredShortNames as any)}>
+                Select All
+              </ActionText>
+              <ActionText onClick={() => setSelectedBooks([])}>Deselect All</ActionText>
+            </ActionsWrapper>
+          </Helpers>
+        </Header>
         <Results>
-          {Object.keys(contents).map((k) => {
-            const shortName = contents[k as FullBookName].short
-            return (
-              <BookSelectItem
-                title={k}
-                onClick={toggleBook(shortName)}
-                selected={selectedBooks.includes(shortName)}
-                key={k}
-              />
-            )
-          })}
+          {Object.keys(contents)
+            .filter((v) => v.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))
+            .map((k) => {
+              const shortName = contents[k as FullBookName].short
+              return (
+                <BookSelectItem
+                  title={k}
+                  onClick={toggleBook(shortName)}
+                  selected={selectedBooks.includes(shortName)}
+                  key={k}
+                />
+              )
+            })}
         </Results>
         <Footer>
           <Button btnType="primary" onClick={() => props.onClose(selectedBooks)}>
@@ -67,12 +83,13 @@ const Overlay = styled.div`
 `
 const Content = styled.div`
   width: 600px;
-  height: 600px;
+  height: 700px;
   overflow-y: hidden;
-  background: #e3dfe3;
+  background: white;
   z-index: 200;
   border: 1px solid ${(props) => props.theme.colors.grey};
   border-radius: 4px;
+  position: relative;
   @media only screen and (max-width: 640px) {
     width: 100%;
     height: 100%;
@@ -80,18 +97,22 @@ const Content = styled.div`
 `
 
 const Footer = styled.div`
-  position: sticky;
+  position: absolute;
+  height: 80px;
+  width: 100%;
   bottom: 0;
-  height: 50px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  background-color: #dedede;
+  background-color: white;
+  border-top: 1px solid ${(props) => props.theme.colors.grey};
+  padding: 16px;
+  box-sizing: border-box;
 `
 
 const Results = styled.div`
   overflow-y: scroll;
-  height: 500px;
+  height: 490px;
   @media only screen and (max-width: 640px) {
     height: 100%;
   }
@@ -100,9 +121,35 @@ const Results = styled.div`
 const Header = styled.div`
   position: sticky;
   top: 0;
-  height: 50px;
+  height: 130px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: white;
+  border-bottom: 1px solid ${(props) => props.theme.colors.grey};
+  padding: 16px;
+  box-sizing: border-box;
+`
+
+const Helpers = styled.div`
+  display: flex;
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+`
+
+const ActionsWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
   align-items: center;
-  background-color: #dedede;
+`
+
+const TextAsdf = styled.div`
+  border-radius: 4px;
+  padding: 8px;
+  background-color: #ececec;
+  color: #676767;
 `

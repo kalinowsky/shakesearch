@@ -54,7 +54,7 @@ export const getFullBookNameByShortName = (name: ShortBookName): string =>
   Object.keys(contents).find((k) => contents[k as keyof typeof contents].short === name) || ""
 
 export const getPageInformation = (book: { size: number; page: number }) =>
-  `${book.page}/${book.size}`
+  `${book.page + 1}/${book.size}`
 
 export const decalredShortNames = [
   "SONN",

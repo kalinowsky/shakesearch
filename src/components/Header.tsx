@@ -1,20 +1,19 @@
+import { useRouter } from "next/router"
 import styled from "styled-components"
 import Image from "next/image"
 import { HeaderStateProps } from "../hooks/useSearchState"
 import { getFullBookNameByShortName, ShortBookName } from "../services/contents"
 import { Button } from "./Button"
-import Link from "next/link"
 import { Input } from "./Input"
 
 export const Header: React.FC<HeaderStateProps & { fullHeight?: boolean }> = (props) => {
+  const router = useRouter()
   return (
     <>
       <HeaderWrapper {...props}>
-        <Link href={"/"}>
-          <ImageWrapper>
-            <Image src="/shakespeare.svg" alt="me" width="64" height="64" />
-          </ImageWrapper>
-        </Link>
+        <ImageWrapper onClick={() => (router.pathname === "/" ? router.back() : router.push("/"))}>
+          <Image src="/book.png" alt="me" width="50" height="50" />
+        </ImageWrapper>
         <Form onSubmit={props.onSubmit}>
           <Input
             placeholder="Search phrase..."
@@ -32,11 +31,11 @@ export const Header: React.FC<HeaderStateProps & { fullHeight?: boolean }> = (pr
               btnType="secondary"
               type="button"
               onClick={() => props.setBookSelectModalVisible(true)}
-              width="300px"
+              width="220px"
             >
               {getSelectBooksButtonName(props.selectedBooks)}
             </Button>
-            <Button btnType="primary" type="submit">
+            <Button btnType="primary" type="submit" width="220px">
               Search
             </Button>
           </ButtonWrapper>
@@ -51,7 +50,7 @@ const getSelectBooksButtonName = (selectedBooks: ShortBookName[]): string =>
     ? getFullBookNameByShortName(selectedBooks[0])
     : selectedBooks.length > 1
     ? `Selected ${selectedBooks.length} books`
-    : "Select books"
+    : "Select books (Optional)"
 
 const HeaderWrapper = styled.header<{ fullHeight?: boolean }>`
   width: 100%;
@@ -71,12 +70,14 @@ const HeaderWrapper = styled.header<{ fullHeight?: boolean }>`
 `
 
 const Form = styled.form`
-  * {
+  input,
+  button {
     margin-left: 24px;
   }
 
   @media only screen and (max-width: 640px) {
-    * {
+    input,
+    button {
       margin-left: 0px;
       margin-bottom: 6px;
     }
@@ -98,8 +99,6 @@ const ImageWrapper = styled.div`
   cursor: pointer;
 
   @media only screen and (max-width: 640px) {
-    left: 6px;
-    top: 6px;
-    width: 36px;
+    display: none;
   }
 `

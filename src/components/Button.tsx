@@ -18,6 +18,8 @@ export const Button = styled.button<{ btnType: string; width?: string }>`
   text-overflow: ellipsis;
   overflow: hidden;
   display: inline-block;
+  font-weight: 500;
+  font-family: Roboto;
 
   @media only screen and (max-width: 960px) {
     width: 150px;

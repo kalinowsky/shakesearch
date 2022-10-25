@@ -50,12 +50,12 @@ export const useSearchState = () => {
     setState((state) => ({
       ...state,
       searchText: queryResult.success ? queryResult.data : state.searchText,
-      selectedBooks: extractBooksFromQuery(books),
+      selectedBooks: books ? extractBooksFromQuery(books) : state.selectedBooks,
     }))
   }, [query.q, query.books])
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault()
+  const onSubmit = (e?: FormEvent) => {
+    e?.preventDefault()
     if (state.inputValidation.type === "Ok") {
       router.push({
         pathname: "/search",
@@ -84,11 +84,31 @@ export const useSearchState = () => {
       query: { book: book.shortName, page: book.page },
     })
 
+  const applySelectedBooks = (books: ShortBookName[]) => {
+    const queryResult = minSearchLength.safeParse(query.q)
+    if (queryResult.success) {
+      router.push(
+        {
+          pathname: "/search",
+          query: { q: state.searchText, books: books.join(",") },
+        },
+        undefined,
+        { scroll: false }
+      )
+    }
+    setState((state) => ({
+      ...state,
+      bookSelectModalVisible: false,
+      selectedBooks: books,
+    }))
+  }
+
   return {
     ...state,
     setSearchText: setStateProperty("searchText"),
     setBookSelectModalVisible: setStateProperty("bookSelectModalVisible"),
     setSelectedBooks: setStateProperty("selectedBooks"),
+    applySelectedBooks,
     query,
     goToRead,
     onSubmit,

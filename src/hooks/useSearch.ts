@@ -30,7 +30,9 @@ export const useSearch = (): {
 
   const search = async (phrase: string, books?: ShortBookName[]) => {
     setResults((state) =>
-      state.type === "Fetched" && state.value.search.phrase === phrase
+      state.type === "Fetched" &&
+      state.value.search.phrase === phrase &&
+      state.value.search.books.length === books?.length
         ? { ...state, type: "FetchingMore" }
         : { type: "Fetching" }
     )

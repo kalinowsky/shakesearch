@@ -15,7 +15,6 @@ const SpinnerWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: ${(props) => props.theme.colors.background};
 `
 
 const SpinnnerIcon = styled.div`
@@ -48,7 +47,7 @@ const SpinnnerIcon = styled.div`
     content: "";
   }
   &:after {
-    background: ${(p) => p.theme.colors.background};
+    background: ${(p) => p.theme.colors.white};
     width: 75%;
     height: 75%;
     border-radius: 50%;

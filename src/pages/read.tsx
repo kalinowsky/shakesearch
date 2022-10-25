@@ -1,34 +1,28 @@
 import styled from "styled-components"
-import { Chevron } from "../components/Chevron"
 import { InfoText } from "../components/InfoText"
-import { Text } from "../components/SearchResult"
+import { Text } from "../components/Text"
 import { Spinner } from "../components/Spinner"
 import { useRead } from "../hooks/useRead"
-import { getFullBookNameByShortName, getPageInformation } from "../services/contents"
-import { ReadResult } from "../services/validation"
+import { getPageInformation } from "../services/contents"
 import { PageProps } from "../types"
+import { BookNavigation } from "../components/BookNavigation"
 
 const Read: PageProps = () => {
-  const { results, goToPage, canGoToPage } = useRead()
+  const { results, ...props } = useRead()
   return (
-    <div>
+    <>
+      <BookNavigation results={results} {...props} />
       {results.type === "Fetching" && <Spinner />}
       {results.type === "Error" && <InfoText>{results.message}</InfoText>}
       {(results.type === "Fetched" || results.type === "FetchingMore") && (
-        <>
-          <BookDetails book={results.value.book} />
-          <Wrapper>
-            <Chevron
-              direction="left"
-              disabled={canGoToPage("previous")}
-              onClick={goToPage("previous")}
-            />
+        <Wrapper>
+          <Page>
             <Text rawText={results.value.content.join("")} />
-            <Chevron direction="right" disabled={canGoToPage("next")} onClick={goToPage("next")} />
-          </Wrapper>
-        </>
+            <Text rawText={getPageInformation(results.value.book)} center />
+          </Page>
+        </Wrapper>
       )}
-    </div>
+    </>
   )
 }
 
@@ -39,28 +33,16 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100%;
   align-items: stretch;
-  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 82px 0;
 `
 
-const BookDetails: React.FC<{ book: ReadResult["book"] }> = (props) => {
-  return (
-    <BookDetailsWrapper>
-      <Width>
-        <h3>{getFullBookNameByShortName(props.book.shortName)}</h3>
-        <h4>{getPageInformation(props.book)}</h4>
-      </Width>
-    </BookDetailsWrapper>
-  )
-}
-
-const BookDetailsWrapper = styled.div`
+const Page = styled.div`
   display: flex;
-  justify-content: center; ;
-`
-
-const Width = styled.div`
-  display: flex;
-  justify-content: space-between;
-  max-width: 600px;
-  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `

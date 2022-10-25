@@ -77,3 +77,5 @@ export const useRead = (): {
 
   return { goToPage, results, canGoToPage }
 }
+
+export type UseReadResult = ReturnType<typeof useRead>

@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { getFullBookNameByShortName, getPageInformation } from "../services/contents"
 import { SearchResultItem } from "../services/validation"
 import { HighlightedText } from "./HighlitedText"
+import { Text } from "./Text"
 
 type SearchResultProps = {
   result: SearchResultItem
@@ -21,23 +22,10 @@ export const SearchResult: React.FC<SearchResultProps> = (props) => {
   )
 }
 
-export const Text: React.FC<{ rawText: string }> = (props) => {
-  return (
-    <TextContent
-      dangerouslySetInnerHTML={{
-        __html: props.rawText.replace(new RegExp("\r", "g"), "<br />"),
-      }}
-    />
-  )
-}
-
-const TextContent = styled.div`
-  width: 400px;
-`
-
 const Title = styled.h3`
   margin: 0;
   font-size: 16px;
+  font-family: "Lora";
 `
 
 const Page = styled.h4`
@@ -56,6 +44,12 @@ const SearchResultWrapper = styled.article`
   box-sizing: border-box;
   margin-bottom: 16px;
   cursor: pointer;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+  }
+
   @media only screen and (max-width: 480px) {
     width: 100%;
   }

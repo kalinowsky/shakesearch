@@ -5,7 +5,7 @@ import { F1 } from "../types"
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   value: string
   setValue: F1<string>
-  error: string | undefined
+  error?: string | undefined
 }
 export const Input: React.FC<InputProps> = (props) => {
   const { value, setValue, error } = props

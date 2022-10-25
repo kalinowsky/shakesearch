@@ -21,4 +21,5 @@ export const HighlightedText = ({ text = "", highlight = "" }) => {
 const Highlight = styled.span`
   color: ${(props) => props.theme.colors.primary};
   font-weight: bold;
+  font-family: "Lora";
 `

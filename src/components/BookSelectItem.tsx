@@ -18,16 +18,14 @@ export const BookSelectItem: React.FC<{ selected: boolean; onClick: F0; title: s
 )
 
 const BookSelectItemWrapper = styled.div<{ selected?: boolean }>`
-  color: ${(props) => (props.selected ? props.theme.colors.secondary : props.theme.colors.black)};
+  color: ${(props) => (props.selected ? props.theme.colors.primary : props.theme.colors.black)};
   cursor: pointer;
   margin: 4px;
-
   padding: 16px;
-  background: ${(props) =>
-    props.selected ? props.theme.colors.primary : props.theme.colors.secondary};
   border-radius: 4px;
   padding-left: 70px;
   position: relative;
+  font-weight: ${(props) => (props.selected ? "500" : "400")};
 `
 
 const CheckWrapper = styled.div`
@@ -47,8 +45,8 @@ const Check = styled.div`
   height: 15px;
   width: 7px;
   margin-left: 60%;
-  border-bottom: 5px solid white;
-  border-right: 5px solid white;
+  border-bottom: 5px solid ${(props) => props.theme.colors.primary};
+  border-right: 5px solid ${(props) => props.theme.colors.primary};
 `
 
 const MarkLetter = styled.div`

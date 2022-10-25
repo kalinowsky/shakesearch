@@ -32,10 +32,7 @@ function App({ Component, pageProps, router }: AppProps) {
           <BookSelectModal
             {...state}
             visible={state.bookSelectModalVisible}
-            onClose={(books) => {
-              state.setSelectedBooks(books)
-              state.setBookSelectModalVisible(false)
-            }}
+            onClose={state.applySelectedBooks}
           />
         )}
       </ThemeProvider>
