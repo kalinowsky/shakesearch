@@ -4,7 +4,7 @@ import { HeaderStateProps } from "../hooks/useSearchState"
 import { ShortBookName } from "../services/contents"
 
 export const SearchInput: React.FC<HeaderStateProps> = (props) => (
-  <div>
+  <Wrapper>
     <FormWrapper onSubmit={props.onSubmit}>
       <SearchButton type="submit">
         <Image src="/search.svg" height={28} width={28} alt="magnifying glass" />
@@ -22,11 +22,15 @@ export const SearchInput: React.FC<HeaderStateProps> = (props) => (
     {props.inputValidation.type === "Error" && props.submitted && (
       <Error>{props.inputValidation.message}</Error>
     )}
-  </div>
+  </Wrapper>
 )
 
 const getSelectBooksButtonName = (selectedBooks: ShortBookName[]): string =>
   selectedBooks.length > 0 ? `${selectedBooks.length} books` : "Select books"
+
+const Wrapper = styled.div`
+  display: flex;
+`
 
 const FormWrapper = styled.form`
   width: 500px;

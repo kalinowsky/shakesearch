@@ -43,21 +43,23 @@ export const BookSelectModal: React.FC<BookSelectProps> = (props) => {
             </ActionsWrapper>
           </Helpers>
         </Header>
-        <Results>
-          {Object.keys(contents)
-            .filter((v) => v.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))
-            .map((k) => {
-              const shortName = contents[k as FullBookName].short
-              return (
-                <BookSelectItem
-                  title={k}
-                  onClick={toggleBook(shortName)}
-                  selected={selectedBooks.includes(shortName)}
-                  key={k}
-                />
-              )
-            })}
-        </Results>
+        <ResultsWrapper>
+          <Results>
+            {Object.keys(contents)
+              .filter((v) => v.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))
+              .map((k) => {
+                const shortName = contents[k as FullBookName].short
+                return (
+                  <BookSelectItem
+                    title={k}
+                    onClick={toggleBook(shortName)}
+                    selected={selectedBooks.includes(shortName)}
+                    key={k}
+                  />
+                )
+              })}
+          </Results>
+        </ResultsWrapper>
         <Footer>
           <Button btnType="primary" onClick={() => props.onClose(selectedBooks)}>
             {buttonText}
@@ -120,6 +122,12 @@ const Results = styled.div`
   height: 490px;
   @media only screen and (max-width: 640px) {
     height: 100%;
+  }
+`
+
+const ResultsWrapper = styled.div`
+  @media only screen and (max-width: 640px) {
+    height: calc(100% - 250px);
   }
 `
 
