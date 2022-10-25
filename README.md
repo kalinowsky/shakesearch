@@ -35,8 +35,9 @@
 ### Things to improve in future
 
 - Search could be more precise and faster (maybe it'd be better to save books in some locally db?)
+- Related to above - right now search works for more than 3 characters as in the other case results are too random, I didn't want to spend more time on search configuration but I'd definitely do it in production app
 - Pagination / infinite scroll for better loading results experience
 - Better mobile support / maybe adding dark mode (it'd be quite easy to do as app use using styled components with theme provider)
 - Book reading feature - would be cool if user can just open a specific book and start reading from the first page
 - Adding maybe some E2E tests by cypress
-- Change logo which I've created in one minute
+- Create a real logo!
