@@ -1,31 +1,32 @@
 import Image from "next/image"
 import styled from "styled-components"
 import { HeaderStateProps } from "../hooks/useSearchState"
-import { getFullBookNameByShortName, ShortBookName } from "../services/contents"
+import { ShortBookName } from "../services/contents"
 
 export const SearchInput: React.FC<HeaderStateProps> = (props) => (
-  <FormWrapper onSubmit={props.onSubmit}>
-    <SearchButton type="submit">
-      <Image src="/search.svg" height={28} width={28} alt="magnifying glass" />
-    </SearchButton>
-    <Input
-      placeholder="Search phrase..."
-      value={props.searchText}
-      onChange={(e) => props.setSearchText(e.target.value)}
-    />
-    <BooksButton onClick={() => props.setBookSelectModalVisible(true)}>
-      <BooksButtonText>{getSelectBooksButtonName(props.selectedBooks)}</BooksButtonText>
-      <Image src="/books.png" height={36} width={36} alt="books" />
-    </BooksButton>
-  </FormWrapper>
+  <div>
+    <FormWrapper onSubmit={props.onSubmit}>
+      <SearchButton type="submit">
+        <Image src="/search.svg" height={28} width={28} alt="magnifying glass" />
+      </SearchButton>
+      <Input
+        placeholder="Search phrase..."
+        value={props.searchText}
+        onChange={(e) => props.setSearchText(e.target.value)}
+      />
+      <BooksButton onClick={() => props.setBookSelectModalVisible(true)}>
+        <BooksButtonText>{getSelectBooksButtonName(props.selectedBooks)}</BooksButtonText>
+        <Image src="/books.png" height={36} width={36} alt="books" />
+      </BooksButton>
+    </FormWrapper>
+    {props.inputValidation.type === "Error" && props.submitted && (
+      <Error>{props.inputValidation.message}</Error>
+    )}
+  </div>
 )
 
 const getSelectBooksButtonName = (selectedBooks: ShortBookName[]): string =>
-  selectedBooks.length === 1
-    ? getFullBookNameByShortName(selectedBooks[0])
-    : selectedBooks.length > 1
-    ? `${selectedBooks.length} books`
-    : "Select books"
+  selectedBooks.length > 0 ? `${selectedBooks.length} books` : "Select books"
 
 const FormWrapper = styled.form`
   width: 500px;
@@ -89,4 +90,11 @@ const BooksButtonText = styled.div`
   margin-right: 10px;
   text-align: end;
   width: 100%;
+`
+
+const Error = styled.div`
+  color: ${(props) => props.theme.colors.danger};
+  font-size: 14px;
+  position: absolute;
+  margin-top: 4px;
 `

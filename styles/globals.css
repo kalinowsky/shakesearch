@@ -10,3 +10,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+
+html {
+  overflow-y: scroll;
+}
