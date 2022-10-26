@@ -1,6 +1,6 @@
 # ShakeSearch
 
-### [Netlify demo link](https://shakespearetask.netlify.app/])
+### [Netlify demo link](https://shakespearetask.netlify.app)
 
 ### Before first launch
 
