@@ -2,7 +2,7 @@
 
 ### [Netlify demo link](https://shakespearetask.netlify.app/])
 
-### Before first lunch
+### Before first launch
 
 `yarn install`
 
