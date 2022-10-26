@@ -14,7 +14,7 @@ export const SearchInput: React.FC<HeaderStateProps> = (props) => (
         value={props.searchText}
         onChange={(e) => props.setSearchText(e.target.value)}
       />
-      <BooksButton onClick={() => props.setBookSelectModalVisible(true)}>
+      <BooksButton type="button" onClick={() => props.setBookSelectModalVisible(true)}>
         <BooksButtonText>{getSelectBooksButtonName(props.selectedBooks)}</BooksButtonText>
         <Image src="/books.png" height={36} width={36} alt="books" />
       </BooksButton>

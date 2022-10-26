@@ -85,17 +85,13 @@ export const useSearchState = () => {
     })
 
   const applySelectedBooks = (books: ShortBookName[]) => {
-    const queryResult = minSearchLength.safeParse(query.q)
-    if (queryResult.success) {
-      router.push(
-        {
-          pathname: "/search",
-          query: { q: state.searchText, books: books.join(",") },
-        },
-        undefined,
-        { scroll: false }
-      )
-    }
+    router.push(
+      {
+        query: { q: state.searchText, books: books.join(",") },
+      },
+      undefined,
+      { scroll: false }
+    )
     setState((state) => ({
       ...state,
       bookSelectModalVisible: false,

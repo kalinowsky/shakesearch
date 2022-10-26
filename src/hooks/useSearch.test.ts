@@ -41,7 +41,7 @@ describe("useSearch", () => {
     expect((result.all[0] as any).results).toEqual({ type: "NotFetched" })
     expect((result.all[1] as any).results).toEqual({
       type: "Error",
-      message: "Too short name",
+      message: "Too short search phrase",
     })
   })
 

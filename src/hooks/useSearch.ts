@@ -37,7 +37,7 @@ export const useSearch = (): {
         : { type: "Fetching" }
     )
     if (!minSearchLength.safeParse(phrase.trim()).success)
-      return setResults({ type: "Error", message: "Too short name" })
+      return setResults({ type: "Error", message: "Too short search phrase" })
     if (!(typeof books === "undefined" || isBooksArgument(books)))
       return setResults({ type: "Error", message: "Invalid books" })
     try {
